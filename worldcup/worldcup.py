@@ -243,7 +243,10 @@ class WorldCup(commands.Cog):
                     last_status[mid] = status
                     changed_status = True
                     await self._handle_status_change(match, prev, status)
-                else:
+                elif status in ("IN_PLAY", "PAUSED"):
+                    # Only re-check for goals while the match is actually being played.
+                    # Finished matches sometimes get tiny score corrections from the API
+                    # after full-time; we don't want those treated as new goals.
                     await self._check_goal(match)
 
             if changed_status:
@@ -535,16 +538,30 @@ class WorldCup(commands.Cog):
             await ctx.send(f"⚠️ Couldn't reach football-data.org right now ({err}). Try again shortly.")
             return
 
+        standings_list = data.get("standings", [])
         target = None
-        for standing in data.get("standings", []):
-            if standing.get("group") == f"GROUP_{letter}":
+        possible_names = {f"group_{letter}".upper(), letter, f"group {letter}".upper()}
+        for standing in standings_list:
+            grp = standing.get("group")
+            if grp and str(grp).upper().replace(" ", "_") in possible_names:
                 target = standing
                 break
         if not target:
-            await ctx.send(
-                f"No standings found for Group {letter}. Either it doesn't exist or "
-                "the group stage hasn't been published/started yet."
-            )
+            if not standings_list:
+                await ctx.send(
+                    f"The API returned **zero** standings entries for the World Cup right now "
+                    f"(competition: {data.get('competition', {}).get('name', 'unknown')}).\n"
+                    "This usually means either the standings endpoint isn't populated yet for this "
+                    "competition/season on your plan, or it needs a `season` parameter. "
+                    "An admin can run `[p]wc admin debugstandings` to see the raw response."
+                )
+            else:
+                seen = ", ".join(sorted({str(s.get("group")) for s in standings_list})) or "none"
+                await ctx.send(
+                    f"No standings found for Group {letter}. The API did return standings, but none "
+                    f"labeled like `GROUP_{letter}`. Groups it actually returned: {seen}\n"
+                    "An admin can run `[p]wc admin debugstandings` to see the full raw response."
+                )
             return
 
         lines = [f"{'Pos':<4}{'Team':<20}{'P':>3}{'W':>3}{'D':>3}{'L':>3}{'GF':>4}{'GA':>4}{'GD':>4}{'Pts':>5}"]
@@ -767,7 +784,31 @@ class WorldCup(commands.Cog):
         await self.config.guild(ctx.guild).payout_multiplier.set(multiplier)
         await ctx.send(f"💸 Payout multiplier set to {multiplier}x.")
 
-    @wc_admin.command(name="settings")
+    @wc_admin.command(name="debugstandings")
+    async def wc_admin_debugstandings(self, ctx: commands.Context):
+        """Shows the raw standings API response structure for troubleshooting."""
+        data, err = await self._get_standings()
+        if err:
+            await ctx.send(f"API call failed with error: `{err}`")
+            return
+        comp = data.get("competition", {})
+        season = data.get("season", {})
+        standings = data.get("standings", [])
+        summary = [
+            f"Competition: {comp.get('name')} ({comp.get('code')}), type: {comp.get('type')}",
+            f"Season: {season.get('startDate')} to {season.get('endDate')}, currentMatchday: {season.get('currentMatchday')}",
+            f"Number of standings entries: {len(standings)}",
+        ]
+        for s in standings[:15]:
+            summary.append(
+                f"  stage={s.get('stage')} type={s.get('type')} group={s.get('group')!r} "
+                f"teams_in_table={len(s.get('table', []))}"
+            )
+        text = "\n".join(summary)
+        for page in pagify(text, page_length=1900):
+            await ctx.send(box(page))
+
+
     async def wc_admin_settings(self, ctx: commands.Context):
         """Shows the current configuration for this server."""
         conf = await self.config.guild(ctx.guild).all()
