@@ -1,5 +1,5 @@
 {
-    "author": ["Claude (Anthropic)"],
+    "author": ["Mitza"],
     "min_bot_version": "3.5.0",
     "description": "Full World Cup 2026 tracker for Red: live scores, upcoming matches, group standings, automatic goal alerts, automatic match threads, automatic live-score voice/text channel updates, and a currency betting system built on Red's economy.",
     "hidden": false,
