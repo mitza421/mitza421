@@ -168,7 +168,7 @@ class WorldCup(commands.Cog):
             return None, "quota_exhausted"
 
         session = await self._get_session()
-        headers = {"x-apisports-key": key}
+        headers = {"x-apisports-key": ba4f29a33a238fea43c1c1badecb0533}
         url = f"{API_BASE}{path}"
         try:
             async with session.get(url, headers=headers, params=params, timeout=15) as resp:
