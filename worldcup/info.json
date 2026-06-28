@@ -1,0 +1,10 @@
+{
+    "author": ["Claude (Anthropic)"],
+    "min_bot_version": "3.5.0",
+    "description": "Full World Cup 2026 tracker for Red: live scores, upcoming matches, group standings, automatic goal alerts, automatic match threads, automatic live-score voice/text channel updates, and a currency betting system built on Red's economy.",
+    "hidden": false,
+    "install_msg": "Thanks for installing **World Cup 2026**!\n\n1. Get a free API key at https://www.football-data.org/client/register\n2. Run `[p]set api footballdata api_key,YOUR_KEY_HERE` (in DM with the bot for safety)\n3. Run `[p]wc admin setup` to configure channels\n4. Run `[p]help WorldCup` to see all commands\n\nIf you shared your API key anywhere public, regenerate it on football-data.org first.",
+    "short": "World Cup 2026 live scores, standings, goal alerts, match threads, live channels & betting.",
+    "tags": ["football", "soccer", "worldcup", "sports", "betting", "economy"],
+    "end_user_data_statement": "This cog stores Discord user and guild IDs along with betting amounts and history in order to operate the betting feature. No other personal data is collected or shared with third parties (other than football-data.org, which only receives match/competition lookups, never user data)."
+}
