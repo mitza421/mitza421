@@ -1,0 +1,10 @@
+{
+    "author": ["You"],
+    "min_bot_version": "3.5.0",
+    "description": "Join-to-create private voice rooms with a shared control panel (Lock/Unlock/Limit/Rename/Kick/Claim/Bitrate) posted in its own text channel.",
+    "hidden": false,
+    "install_msg": "Thanks for installing PrivateRooms! Run `[p]prooms setup hub <voice channel>` and `[p]prooms setup panel <text channel>` to get started.",
+    "requirements": [],
+    "short": "Join-to-create private voice rooms with a button control panel.",
+    "tags": ["voice", "rooms", "vc", "temp-channels", "buttons"]
+}
