@@ -8,18 +8,18 @@ def room_embed(guild: discord.Guild) -> discord.Embed:
     embed = discord.Embed(
         title="<:frg_joinvc:1535209033420505138> Fried Gang | VOICE HUB",
         description=(
-            "Join **🔊 CREATE PUBLIC** for a room anyone can join, or **🔒 CREATE PRIVATE** "
+            "Join  **🔊 CREATE PUBLIC**  for a room anyone can join, or  **🔒 CREATE PRIVATE**  "
             "for a room that's locked to just you until you let others in.\n\n"
             "Use the buttons below to manage **your own** room from anywhere — "
             "you don't need to be in the room's own chat to use these.\n\n"
-            "🔒 **Lock** — stop new people from joining\n"
-            "🔓 **Unlock** — let anyone join again\n"
-            "🙈 **Hide** — hide the room from the channel list\n"
-            "👁️ **Unhide** — make the room visible again\n"
-            "✏️ **Rename** — change your room's name\n"
-            "👥 **Limit** — set a max number of people (0 = unlimited)\n"
-            "🦵 **Kick** — remove someone from your room\n"
-            "👑 **Claim** — take ownership of an empty-of-owner room"
+            "<:frg_lock:1535326926670008411> **Lock** — stop new people from joining\n"
+            "<:frg_unlock:1535326925516709928> **Unlock** — let anyone join again\n"
+            "<:frg_hide:1535326883216883752> **Hide** — hide the room from the channel list\n"
+            "<:frg_unhide:1535326713880514602> **Unhide** — make the room visible again\n"
+            "<:frg_rename:1535326922387488959> **Rename** — change your room's name\n"
+            "<:frg_limit:1535326921271812236> **Limit** — set a max number of people (0 = unlimited)\n"
+            "<:frg_kick:1535326920420630660> **Kick** — remove someone from your room\n"
+            "<:frg_claim:1535326919472586837> **Claim** — take ownership of an empty-of-owner room"
         ),
         colour=discord.Colour.blurple(),
     )
@@ -123,9 +123,9 @@ class ControlPanelView(discord.ui.View):
         overwrite = channel.overwrites_for(channel.guild.default_role)
         overwrite.connect = False
         await channel.set_permissions(channel.guild.default_role, overwrite=overwrite, reason=f"Locked by {interaction.user}")
-        await interaction.response.send_message("🔒 Room locked. Only existing members and anyone you allow can join.", ephemeral=True)
+        await interaction.response.send_message("<:frg_lock:1535326926670008411> Room locked. Only existing members and anyone you allow can join.", ephemeral=True)
 
-    @discord.ui.button(label="Unlock", emoji="🔓", style=discord.ButtonStyle.success, custom_id="prooms:unlock", row=0)
+    @discord.ui.button(label="Unlock", emoji=discord.PartialEmoji(name="frg_unlock", id=1535326925516709928), style=discord.ButtonStyle.secondary, custom_id="prooms:unlock", row=0)
     async def unlock(self, interaction: discord.Interaction, button: discord.ui.Button):
         channel = await self._get_channel_or_warn(interaction)
         if channel is None:
@@ -133,9 +133,9 @@ class ControlPanelView(discord.ui.View):
         overwrite = channel.overwrites_for(channel.guild.default_role)
         overwrite.connect = None
         await channel.set_permissions(channel.guild.default_role, overwrite=overwrite, reason=f"Unlocked by {interaction.user}")
-        await interaction.response.send_message("🔓 Room unlocked. Anyone can join now.", ephemeral=True)
+        await interaction.response.send_message("<:frg_unlock:1535326925516709928> Room unlocked. Anyone can join now.", ephemeral=True)
 
-    @discord.ui.button(label="Hide", emoji="🙈", style=discord.ButtonStyle.secondary, custom_id="prooms:hide", row=0)
+    @discord.ui.button(label="Hide", emoji=discord.PartialEmoji(name="frg_hide", id=1535326883216883752), style=discord.ButtonStyle.secondary, custom_id="prooms:hide", row=0)
     async def hide(self, interaction: discord.Interaction, button: discord.ui.Button):
         channel = await self._get_channel_or_warn(interaction)
         if channel is None:
@@ -143,9 +143,9 @@ class ControlPanelView(discord.ui.View):
         overwrite = channel.overwrites_for(channel.guild.default_role)
         overwrite.view_channel = False
         await channel.set_permissions(channel.guild.default_role, overwrite=overwrite, reason=f"Hidden by {interaction.user}")
-        await interaction.response.send_message("🙈 Room hidden from the channel list.", ephemeral=True)
+        await interaction.response.send_message("<:frg_hide:1535326883216883752> Room hidden from the channel list.", ephemeral=True)
 
-    @discord.ui.button(label="Unhide", emoji="👁️", style=discord.ButtonStyle.secondary, custom_id="prooms:unhide", row=0)
+    @discord.ui.button(label="Unhide", emoji=discord.PartialEmoji(name="frg_unhide", id=1535326713880514602), style=discord.ButtonStyle.secondary, custom_id="prooms:unhide", row=0)
     async def unhide(self, interaction: discord.Interaction, button: discord.ui.Button):
         channel = await self._get_channel_or_warn(interaction)
         if channel is None:
@@ -153,9 +153,9 @@ class ControlPanelView(discord.ui.View):
         overwrite = channel.overwrites_for(channel.guild.default_role)
         overwrite.view_channel = None
         await channel.set_permissions(channel.guild.default_role, overwrite=overwrite, reason=f"Unhidden by {interaction.user}")
-        await interaction.response.send_message("👁️ Room visible again.", ephemeral=True)
+        await interaction.response.send_message("<:frg_unhide:1535326713880514602> Room visible again.", ephemeral=True)
 
-    @discord.ui.button(label="Rename", emoji="✏️", style=discord.ButtonStyle.primary, custom_id="prooms:rename", row=1)
+    @discord.ui.button(label="Rename", emoji=discord.PartialEmoji(name="frg_rename", id=1535326922387488959), style=discord.ButtonStyle.secondary, custom_id="prooms:rename", row=1)
     async def rename(self, interaction: discord.Interaction, button: discord.ui.Button):
         channel = await self.cog.get_owned_channel(interaction)
         if channel is None:
@@ -163,7 +163,7 @@ class ControlPanelView(discord.ui.View):
             return
         await interaction.response.send_modal(RenameModal(self.cog, channel))
 
-    @discord.ui.button(label="Limit", emoji="👥", style=discord.ButtonStyle.primary, custom_id="prooms:limit", row=1)
+    @discord.ui.button(label="Limit", emoji=discord.PartialEmoji(name="frg_limit", id=1535326921271812236), style=discord.ButtonStyle.secondary, custom_id="prooms:limit", row=1)
     async def limit(self, interaction: discord.Interaction, button: discord.ui.Button):
         channel = await self.cog.get_owned_channel(interaction)
         if channel is None:
@@ -171,7 +171,7 @@ class ControlPanelView(discord.ui.View):
             return
         await interaction.response.send_modal(LimitModal(self.cog, channel))
 
-    @discord.ui.button(label="Kick", emoji="🦵", style=discord.ButtonStyle.danger, custom_id="prooms:kick", row=1)
+    @discord.ui.button(label="Kick", emoji=discord.PartialEmoji(name="frg_kick", id=1535326920420630660), style=discord.ButtonStyle.secondary, custom_id="prooms:kick", row=1)
     async def kick(self, interaction: discord.Interaction, button: discord.ui.Button):
         channel = await self._get_channel_or_warn(interaction)
         if channel is None:
@@ -183,7 +183,7 @@ class ControlPanelView(discord.ui.View):
             "Choose who to remove:", view=KickSelectView(self.cog, channel), ephemeral=True
         )
 
-    @discord.ui.button(label="Claim", emoji="👑", style=discord.ButtonStyle.secondary, custom_id="prooms:claim", row=1)
+    @discord.ui.button(label="Claim", emoji=discord.PartialEmoji(name="frg_claim", id=1535326919472586837), style=discord.ButtonStyle.secondary, custom_id="prooms:claim", row=1)
     async def claim(self, interaction: discord.Interaction, button: discord.ui.Button):
         member = interaction.user
         if member.voice is None or member.voice.channel is None:
@@ -201,7 +201,7 @@ class ControlPanelView(discord.ui.View):
             await interaction.response.send_message("The current owner is still in the room.", ephemeral=True)
             return
         await self.cog.set_owner(interaction.guild, channel, member)
-        await interaction.response.send_message("👑 You are now the owner of this room.", ephemeral=True)
+        await interaction.response.send_message("<:frg_claim:1535326919472586837> You are now the owner of this room.", ephemeral=True)
 
 
 class PrivateRooms(commands.Cog):
