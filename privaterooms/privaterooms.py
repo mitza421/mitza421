@@ -115,7 +115,7 @@ class ControlPanelView(discord.ui.View):
             )
         return channel
 
-    @discord.ui.button(label="Lock", emoji="🔒", style=discord.ButtonStyle.danger, custom_id="prooms:lock", row=0)
+    @discord.ui.button(label="Lock", emoji=discord.PartialEmoji(name="frg_lock", id=1535326926670008411), style=discord.ButtonStyle.secondary, custom_id="prooms:lock", row=0)
     async def lock(self, interaction: discord.Interaction, button: discord.ui.Button):
         channel = await self._get_channel_or_warn(interaction)
         if channel is None:
