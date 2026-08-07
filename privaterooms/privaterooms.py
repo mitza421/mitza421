@@ -6,9 +6,9 @@ from typing import Optional
 
 def room_embed(guild: discord.Guild) -> discord.Embed:
     embed = discord.Embed(
-        title="🔊 Private Rooms",
+        title="🔊 Fried Gang private rooms",
         description=(
-            "Join **CREATE PUBLIC** for a room anyone can join, or **CREATE PRIVATE** "
+            "Join **🔊 CREATE PUBLIC** for a room anyone can join, or **🔊 CREATE PRIVATE** "
             "for a room that's locked to just you until you let others in.\n\n"
             "Use the buttons below to manage **your own** room from anywhere — "
             "you don't need to be in the room's own chat to use these.\n\n"
