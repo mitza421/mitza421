@@ -19,7 +19,7 @@ def room_embed(guild: discord.Guild) -> discord.Embed:
             "<:frg_rename:1535326922387488959> **Rename** — change your room's name\n"
             "<:frg_limit:1535326921271812236> **Limit** — set a max number of people (0 = unlimited)\n"
             "<:frg_kick:1535326920420630660> **Kick** — remove someone from your room\n"
-            "<:frg_claim:1535326919472586837> **Claim** — take ownership of an empty-of-owner room"
+            "<:frg_claim:1541154764660678727> **Claim** — take ownership of an empty-of-owner room"
         ),
         colour=discord.Colour.blurple(),
     )
