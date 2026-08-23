@@ -183,7 +183,7 @@ class ControlPanelView(discord.ui.View):
             "Choose who to remove:", view=KickSelectView(self.cog, channel), ephemeral=True
         )
 
-    @discord.ui.button(label="Claim", emoji=discord.PartialEmoji(name="frg_claim", id=1535326919472586837), style=discord.ButtonStyle.secondary, custom_id="prooms:claim", row=1)
+    @discord.ui.button(label="Claim", emoji=discord.PartialEmoji(name="frg_claim", id=1541154764660678727), style=discord.ButtonStyle.secondary, custom_id="prooms:claim", row=1)
     async def claim(self, interaction: discord.Interaction, button: discord.ui.Button):
         member = interaction.user
         if member.voice is None or member.voice.channel is None:
